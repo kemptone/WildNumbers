@@ -1,69 +1,44 @@
-import { Build } from './Word.js'
-import Sort from './Sort.js'
-import BuildList from './BuildList.js'
+import GetHighestFactor from "./GetHighestFactor.js"
+import GetLowestFactor from "./GetLowestFactor.js"
 
-const Limit = 2000
+const Limit = 100000
 
 const Page = window.Page = {
-  words : []
-  , special_words : []
-  , words_loaded : false
-  , e_words : document.querySelector("#words")
-  , Limit
+  Limit
   , primes : undefined
   , prime_keys : {}
+  , numbers : []
 }
-
-const buildList = BuildList(Page, Limit)
 
 const worker = new Worker("prime.worker.js")
 
 worker.onmessage = function (message) {
-  console.log({ data : message.data })
   Page.primes = message.data
   Page.primes.forEach( value => Page.prime_keys[ value ] = true)
-  if (Page.words_loaded)
-    buildList()
+
+  let x = 0
+
+  const getLowestFactor = GetLowestFactor(Page)
+
+  for (x = 0; x < Limit; x++) {
+
+    let factors = !x ? x : getLowestFactor( x )
+
+    // Page.numbers.push()
+
+  //   // let num = x > 3 ? getHighestFactor(x) : 1
+
+    Page.numbers.push({
+      x
+      , factors
+      , is_prime : x === factors[ 0 ]
+    })
+
+  }
+
+  console.log(Page)
+
+
 }
 
 worker.postMessage(Limit)
-
-fetch("special_words.txt")
-.then( response => response.text() )
-.then( text => {
-    text.split("\n").forEach(
-      line => Page.special_words.push( line )
-    )
-})
-
-// fetch("english_words_short.txt")
-fetch("SpellingWords.txt")
-.then( response => response.text() )
-.then( text => {
-
-  // duplicating so it has plenty of room
-  let x = 10
-  while (x--)
-    text += text
-
-    text.split("\n").forEach(
-      line => {
-
-      const [ word, count ] = line.split(" ")
-
-      Page.words.push({
-        word
-      })
-
-    })
-
-    Object.assign(Page, Sort(Page.words, Page))
-
-    Page.words_loaded = true
-    return Page
-} )
-.then( arr => {
-  // Build( Page.e_words )( Page.words.slice(0, Limit) )
-  if (Page.primes)
-    buildList()
-} )
