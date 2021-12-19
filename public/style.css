@@ -1,45 +1,43 @@
-#words {
-  font-size:22px;
+#numbers {
+  font-size: 30px;
   font-family: sans-serif;
   font-weight: 100;
 }
 
-#words > div {
+#numbers > div {
   white-space: nowrap;
-  padding: 6px 5px 6px;
+  padding: 6px 0em 6px 0;
   float:left;
-  width:50%;
+  width: 307px;
   position: relative;
   box-sizing: border-box;
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  justify-content: space-between;
 }
 
-#words > div > i {
+#numbers > div > i {
   font-style: normal;
   padding-right: 17px;
-  font-size: 25px;
   flex: 0;
   min-width: 63px;
   display: block;
   text-align: right;
 }
 
-#words > div > b {
+#numbers > div > b {
   font-style: normal;
-  font-weight: normal;
-  font-size: 34px;
-  flex: 1;
+  font-weight: bold;
+  font-size: 140%;
+  /* flex: 1; */
 }
 
-#words > div > em {
+#numbers > div > em {
   font-style: normal;
-  font-size: 16px;
+  font-size: 65%;
   font-family: 'Nothing You Could Do', cursive;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   text-align: right;
-  flex: 0;
-}
-
-#words > div:nth-child(odd) > em {
-  padding-right: 70px;
+  flex: 1;
+  padding-right: 1em;
 }
